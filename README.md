@@ -7,7 +7,7 @@ A small full-stack app for tracking job applications: company, role, status and 
 ## Features
 
 - Add, view, update and delete job applications (CRUD)
-- Track status for each application (for example: Applied, Interviewing, Offered, Rejected)
+- Track status for each application: **Applied, Interview, Offer, Rejected** (chosen from a dropdown, so spelling stays consistent)
 - **Duplicate protection:** adding an application with the same **company + role** returns the existing record instead of creating a second one
 - Data is saved in a local SQLite file, so it survives restarts
 
@@ -19,7 +19,16 @@ A small full-stack app for tracking job applications: company, role, status and 
 | Database access | SQLAlchemy (ORM) |
 | Validation | Pydantic |
 | Database | SQLite (`backend/job_tracker.db`) |
-| Frontend | React (runs on `http://localhost:3000`) |
+| Frontend | React 19 (Create React App), plain `fetch` calls to the API, inline styles |
+
+## How the frontend works
+
+`frontend/src/App.js` is a single React component that:
+
+- Loads all applications from `GET /applications` when the page opens
+- Has an **Add New Application** form (company, role, status, notes) that sends `POST /applications`
+- Lists saved applications with a status dropdown and an **Update Status** button (`PUT /applications/{id}`), plus a **Delete** button (`DELETE /applications/{id}`)
+- Shows a green success or red error message after each action, and reloads the list
 
 ## API endpoints
 
@@ -56,7 +65,8 @@ Job_Tracker/
 │   ├── models.py        # ApplicationModel table definition
 │   ├── schemas.py       # Pydantic request/response models
 │   └── job_tracker.db   # Local SQLite database (sample data)
-├── frontend/            # React app
+├── frontend/            # React app (Create React App)
+│   └── src/App.js       # Form, list, update and delete UI
 └── README.md
 ```
 
