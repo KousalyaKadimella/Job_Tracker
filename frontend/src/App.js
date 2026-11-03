@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:8000";
 
 function App() {
   const [company, setCompany] = useState("");
@@ -12,7 +13,7 @@ function App() {
 
   const fetchApplications = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/applications");
+      const response = await fetch(`${API_URL}/applications`);
       const data = await response.json();
       setApplications(data);
     } catch (error) {
@@ -36,7 +37,7 @@ function App() {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/applications", {
+      const response = await fetch(`${API_URL}/applications`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +66,7 @@ function App() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/applications/${id}`, {
+      const response = await fetch(`${API_URL}/applications/${id}`, {
         method: "DELETE",
       });
 
@@ -99,7 +100,7 @@ function App() {
     };
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/applications/${app.id}`, {
+      const response = await fetch(`${API_URL}/applications/${app.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
